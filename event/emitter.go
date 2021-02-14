@@ -50,7 +50,7 @@ func startListening() {
 func callHandlers(e event) {
 	handlerMap, ok := registry[e.eventType]
 	if !ok {
-		fmt.Printf("No handler function found for the emitted event type %s", string(e.eventType))
+		fmt.Printf("No handler function found for the emitted event type %s\n", string(e.eventType))
 	} else {
 		for handlerId := range handlerMap {
 			h := handlerMap[handlerId]
@@ -64,7 +64,7 @@ func executeHandler(h handler, args ...interface{}) {
 	decoratedHandler := func() {
 		defer func() {
 			if r := recover(); r != nil {
-				fmt.Printf("Panic recovered for the handler %s", h.id)
+				fmt.Printf("Panic recovered for the handler %s\n", h.id)
 			}
 		}()
 
@@ -113,7 +113,7 @@ func Emit(eventType Type, args ...interface{}) {
 		eventType: eventType,
 		args:      args,
 	}
-	fmt.Printf("Emitting event %s", string(eventType))
+	fmt.Printf("Emitting event %s\n", string(eventType))
 	go writeToEventChannel(e)
 }
 
